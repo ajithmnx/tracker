@@ -879,82 +879,35 @@ function setSyncStatus(msg, col) {
   if (el) { el.textContent = msg; el.style.color = col||'var(--tx3)'; }
   if (lb) lb.textContent = msg;
 }
-function clearDailyCacheKeys() {
-  try {
-    const toRemove = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && (/^h_\d{4}-\d{2}-\d{2}$/.test(key) || /^s_\d{4}-\d{2}-\d{2}$/.test(key))) {
-        toRemove.push(key);
-      }
-    }
-    toRemove.forEach(key => localStorage.removeItem(key));
-  } catch {}
-}
-function applyCloudSnapshot(j) {
-  if (!j || j.status !== 'ok') return false;
-  clearDailyCacheKeys();
-  if (j.habits) {
-    for (const [d, data] of Object.entries(j.habits)) sv('h_' + d, data);
-  }
-  if (j.spending) {
-    for (const [d, data] of Object.entries(j.spending)) sv('s_' + d, data);
-  }
-  return true;
-}
-function hydrateFromCache() {
-  chk = lc(td());
-}
 let saveTimer = null;
-let refreshTimer = null;
-function scheduleCloudRefresh(delay = 1200) {
-  clearTimeout(refreshTimer);
-  refreshTimer = setTimeout(async () => {
-    const ok = await cloudLoad({silent:false});
-    if (ok) {
-      hydrateFromCache();
-      render();
-    }
-  }, delay);
-}
 function debouncedSave(type, date, data) {
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(async () => {
-    setSyncStatus('Saving…','var(--blue)');
-    if (type === 'habits') await cloudSave('saveHabits', date, data);
-    else await cloudSave('saveSpending', date, data);
+  saveTimer = setTimeout(() => {
     setSyncStatus('Saved ✓','var(--green)');
-    scheduleCloudRefresh(1200);
+    setTimeout(() => setSyncStatus('Synced','var(--tx3)'), 2000);
+    if (type==='habits') cloudSave('saveHabits', date, data);
+    else cloudSave('saveSpending', date, data);
   }, 800);
 }
 async function cloudSave(action, date, data) {
   try {
-    await fetch(API, {
-      method:'POST',
-      mode:'no-cors',
-      headers:{'Content-Type':'text/plain'},
-      body: JSON.stringify({action, date, data})
-    });
-    return true;
-  } catch(e) {
-    setSyncStatus('Offline cache only','var(--amber)');
-    return false;
-  }
+    await fetch(API, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'},
+      body: JSON.stringify({action, date, data})});
+  } catch(e) {}
 }
-async function cloudLoad(opts = {}) {
-  const { silent = false } = opts;
+async function cloudLoad() {
   try {
-    if (!silent) setSyncStatus('Syncing…','var(--blue)');
-    const res = await fetch(API+'?action=getAll&_='+Date.now(), { cache:'no-store' });
+    setSyncStatus('Syncing…','var(--blue)');
+    const res = await fetch(API+'?action=getAll&_='+Date.now());
     const j = await res.json();
-    if (applyCloudSnapshot(j)) {
-      if (!silent) setSyncStatus('Synced','var(--tx3)');
+    if (j.status==='ok') {
+      if (j.habits) for (const [d,data] of Object.entries(j.habits)) sv('h_'+d, data);
+      if (j.spending) for (const [d,data] of Object.entries(j.spending)) sv('s_'+d, data);
+      setSyncStatus('Synced','var(--tx3)');
       return true;
     }
-    if (!silent) setSyncStatus('Sync error','var(--red)');
-  } catch {
-    if (!silent) setSyncStatus('Offline','var(--amber)');
-  }
+    setSyncStatus('Sync error','var(--red)');
+  } catch { setSyncStatus('Offline','var(--amber)'); }
   return false;
 }
 
@@ -1782,43 +1735,17 @@ document.getElementById('spDesc').addEventListener('keydown',e=>{if(e.key==='Ent
 document.getElementById('taskInput').addEventListener('keydown',e=>{if(e.key==='Enter')addTask()});
 document.getElementById('newQuoteInp').addEventListener('keydown',e=>{if(e.key==='Enter')addQuote()});
 
-document.addEventListener('visibilitychange', async () => {
-  if (document.visibilityState === 'visible') {
-    const ok = await cloudLoad({silent:false});
-    if (ok) {
-      hydrateFromCache();
-      render();
-    }
-  }
-});
-window.addEventListener('focus', async () => {
-  const ok = await cloudLoad({silent:true});
-  if (ok) {
-    hydrateFromCache();
-    render();
-  }
-});
+render();
 
-async function initApp() {
-  setSyncStatus('Loading cloud data…','var(--blue)');
-  const cloudOk = await cloudLoad({silent:false});
-  if (cloudOk) {
-    hydrateFromCache();
-  } else {
-    chk = lc(td());
-    setSyncStatus('Using local cache','var(--amber)');
-  }
-  render();
-}
-
-initApp();
+// Cloud sync
+cloudLoad().then(ok => { if(ok){ chk=lc(td()); render(); } });
 
 // Auto-refresh every minute
 setInterval(() => { renderTimeline(); renderRisk(); renderSpendMini(); renderSpendDesktop(); renderCmdBar(); renderNow(); renderHeader(); }, 60000);
 // Quote rotation every 5 minutes
 setInterval(() => advanceQuote(), 5*60*1000);
 // Midnight reset
-setInterval(() => { const n=new Date(); if(n.getHours()===0&&n.getMinutes()===0){ chk=lc(td()); render(); scheduleCloudRefresh(1500); } }, 60000);
+setInterval(() => { const n=new Date(); if(n.getHours()===0&&n.getMinutes()===0){ chk=lc(td()); render(); } }, 60000);
 </script>
 </body>
 </html>
