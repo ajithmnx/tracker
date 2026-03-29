@@ -30,7 +30,7 @@
 html{scroll-behavior:smooth}
 body{font-family:var(--font);background:var(--bg0);color:var(--tx);-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,245,212,0.012) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,212,0.012) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
-.shell{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:22px 22px 120px}
+.shell{position:relative;z-index:1;max-width:1800px;margin:0 auto;padding:22px 22px 120px}
 @media(max-width:600px){.shell{padding:14px 14px 110px}}
 
 /* HEADER */
@@ -323,6 +323,60 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--tx4)}
+
+/* QUOTE STRIP */
+.quote-strip{background:var(--glass);border:0.5px solid var(--gb);border-radius:var(--radsm);padding:9px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(20px)}
+.quote-dot{width:5px;height:5px;border-radius:50%;background:var(--purple);flex-shrink:0;box-shadow:0 0 6px var(--purple)}
+.quote-txt{font-size:12px;color:var(--tx2);font-style:italic;flex:1;line-height:1.5}
+.quote-idx{font-size:10px;color:var(--tx3);font-family:var(--mono);flex-shrink:0}
+
+/* SNOOZE STATE */
+.snooze-notice{font-size:11px;color:var(--amber);background:var(--amber2);border-radius:var(--radxs);padding:5px 9px;margin-bottom:8px;display:none;border:0.5px solid rgba(251,191,36,.25)}
+.snooze-notice.show{display:block}
+
+/* ROUTINE EDITOR */
+.routine-edit-panel{padding:0 16px 16px;display:flex;flex-direction:column;gap:7px}
+.re-item{display:flex;align-items:center;gap:7px;padding:8px 10px;background:var(--glass);border:0.5px solid var(--gb);border-radius:var(--radsm)}
+.re-time{width:72px;background:var(--bg2);border:0.5px solid var(--gb);border-radius:var(--radxs);padding:5px 7px;font-size:11px;color:var(--tx);font-family:var(--mono);outline:none}
+.re-label{flex:1;background:var(--bg2);border:0.5px solid var(--gb);border-radius:var(--radxs);padding:5px 7px;font-size:11px;color:var(--tx);font-family:var(--font);outline:none}
+.re-color{width:28px;height:28px;border-radius:6px;border:0.5px solid var(--gb);cursor:pointer;padding:2px;background:var(--bg2)}
+.re-del{background:none;border:none;color:var(--tx3);cursor:pointer;font-size:13px;padding:3px 5px;border-radius:4px;font-family:var(--font);flex-shrink:0}
+.re-del:hover{color:var(--red)}
+.re-add-row{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.re-save-btn{background:var(--teal);color:#08080e;border:none;border-radius:var(--radsm);padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);margin-top:6px}
+.re-save-btn:hover{background:#00dbbf}
+
+/* SPEND CATEGORIES */
+.spend-cat-badge{font-size:9px;padding:2px 7px;border-radius:7px;font-weight:600;white-space:nowrap;font-family:var(--mono)}
+.cat-breakdown{margin-top:12px}
+.cat-breakdown-ttl{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);font-weight:700;margin-bottom:8px}
+.cat-row-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:0.5px solid rgba(255,255,255,.04)}
+.cat-row-item:last-child{border-bottom:none}
+.cat-dot-s{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.cat-name-s{font-size:11px;color:var(--tx2);flex:1}
+.cat-amt-s{font-size:12px;font-weight:700;font-family:var(--mono);color:var(--red)}
+.cat-bar-wrap{width:55px;height:3px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.cat-bar-fill{height:100%;border-radius:2px}
+
+/* DESKTOP SPEND PANEL */
+.spend-desktop{background:var(--glass);border:0.5px solid var(--gb);border-radius:var(--rad);padding:18px;margin-bottom:14px;backdrop-filter:blur(20px)}
+.spend-desktop-grid{display:grid;grid-template-columns:1fr 2fr 1fr;gap:14px;align-items:start}
+@media(max-width:1100px){.spend-desktop-grid{grid-template-columns:1fr}}
+
+/* CELEBRATION */
+@keyframes particle-up{0%{transform:translate(var(--px),0) scale(1);opacity:1}100%{transform:translate(var(--px),var(--py)) scale(0);opacity:0}}
+.celeb-particle{position:absolute;width:8px;height:8px;border-radius:50%;pointer-events:none;z-index:200;animation:particle-up .9s ease forwards}
+@keyframes celeb-glow{0%,100%{box-shadow:none}40%{box-shadow:0 0 40px 10px rgba(0,245,212,.25),0 0 80px 20px rgba(0,245,212,.1)}}
+.now-card.celebrating{animation:celeb-glow .8s ease}
+.celeb-msg{display:none;font-size:13px;font-weight:700;color:var(--teal);text-align:center;padding:8px;letter-spacing:.05em}
+.celeb-msg.show{display:block;animation:fu .3s ease both}
+
+/* QUOTE MANAGER */
+.qm-panel{background:var(--glass);border:0.5px solid var(--gb);border-radius:var(--rad);padding:18px;margin-bottom:14px;backdrop-filter:blur(20px)}
+.qi{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--glass);border:0.5px solid var(--gb);border-radius:var(--radsm)}
+.qi-txt{flex:1;font-size:12px;color:var(--tx2);font-style:italic;line-height:1.5}
+.qi-del{background:none;border:none;color:var(--tx3);cursor:pointer;font-size:12px;padding:3px 5px;border-radius:4px;font-family:var(--font)}
+.qi-del:hover{color:var(--red)}
 </style>
 </head>
 <body>
@@ -342,6 +396,13 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       </div>
     </div>
   </header>
+
+  <!-- QUOTE STRIP -->
+  <div class="quote-strip" id="quoteStrip">
+    <div class="quote-dot"></div>
+    <div class="quote-txt" id="quoteTxt">Loading...</div>
+    <div class="quote-idx" id="quoteIdx">1/6</div>
+  </div>
 
   <!-- COMMAND BAR -->
   <div class="cmd-bar">
@@ -370,7 +431,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     </div>
     <!-- Budget Control -->
     <div class="cmd-card">
-      <div class="cmd-lbl">Spend Control</div>
+      <div class="cmd-lbl" style="display:flex;justify-content:space-between;align-items:center">
+        Spend Control
+        <button onclick="editBudget()" title="Edit monthly budget" style="background:none;border:none;cursor:pointer;color:var(--tx3);font-size:10px;font-family:var(--font);padding:0;transition:color .15s" onmouseover="this.style.color='var(--teal)'" onmouseout="this.style.color='var(--tx3)'">✏ $<span id="budgetDisplay">2927</span>/mo</button>
+      </div>
       <div class="cmd-val" id="budLeft" style="color:var(--green)">$0</div>
       <div class="cmd-sub" id="budSub">budget remaining</div>
     </div>
@@ -432,7 +496,9 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
             <div class="now-mi"><div class="now-mi-lbl">Category</div><div class="now-mi-val" id="nowCat">Health</div></div>
             <div class="now-mi"><div class="now-mi-lbl">Duration</div><div class="now-mi-val" id="nowDur">30 min</div></div>
           </div>
+          <div class="snooze-notice" id="snoozeNotice">⏱ Snoozed — resuming at <span id="snoozeUntilTxt"></span></div>
           <div class="now-reason" id="nowReason">Anchors daily discipline and supports fat loss. Completion lifts the execution score significantly.</div>
+          <div class="celeb-msg" id="celebMsg">🎉 Crushing it! Day complete!</div>
           <div class="now-btns">
             <button class="nbtn nbtn-primary" id="nowStartBtn" onclick="markNowDone()">✓ Mark Complete</button>
             <button class="nbtn nbtn-sec" onclick="snoozeNow()">Snooze 15m</button>
@@ -476,9 +542,13 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <div class="panel vs">
         <div class="panel-hd">
           <div class="panel-ttl">Live Timeline</div>
-          <div class="panel-tag" style="background:var(--teal2);color:var(--teal)" id="tlNow">Now</div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <div class="panel-tag" style="background:var(--teal2);color:var(--teal)" id="tlNow">Now</div>
+            <button class="panel-act" onclick="toggleRoutineEdit()" id="routineEditBtn" title="Edit routine">✏</button>
+          </div>
         </div>
         <div class="tl-list" id="timelineEl"></div>
+        <div id="routineEditPanel" style="display:none"></div>
       </div>
       <!-- Risk Monitor -->
       <div class="panel vs">
@@ -508,6 +578,46 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
   </div><!-- /main-zone -->
 
+  <!-- DESKTOP SPENDING PANEL -->
+  <div class="spend-desktop desk-only" id="spendDesktopWrap">
+    <div class="panel-hd" style="padding:0;margin-bottom:14px">
+      <div class="sec-ttl">Daily Spend Tracker</div>
+      <span style="font-size:12px;color:var(--tx3);font-family:var(--mono)" id="monthLabelD"></span>
+    </div>
+    <div class="spend-desktop-grid">
+      <!-- Left: stats -->
+      <div>
+        <div class="spend-stats-grid">
+          <div class="ss-cell"><div class="ss-lbl">Budget</div><div class="ss-val" id="sBudgetD" style="color:var(--green)">$0</div></div>
+          <div class="ss-cell"><div class="ss-lbl">Spent</div><div class="ss-val" id="sSpentD">$0</div></div>
+          <div class="ss-cell"><div class="ss-lbl">Left</div><div class="ss-val" id="sLeftD" style="color:var(--green)">$0</div></div>
+        </div>
+        <div class="spend-track" style="margin-top:10px"><div class="spend-fill" id="sBudBarD" style="width:0%;background:var(--green)"></div></div>
+        <div class="cat-breakdown" id="catBreakdownD"></div>
+      </div>
+      <!-- Center: add + list -->
+      <div>
+        <div class="spend-add-row" style="margin-bottom:10px">
+          <input class="f-inp grow" id="spDescD" placeholder="What did you spend on?" onkeydown="if(event.key==='Enter')addSpendDesk()">
+          <input class="f-inp amt" id="spAmtD" type="number" placeholder="$" step="0.01" onkeydown="if(event.key==='Enter')addSpendDesk()">
+          <select class="f-sel" id="spCatD" style="min-width:130px">
+            <option value="groceries">Groceries</option>
+            <option value="eating_out">Eating out</option>
+            <option value="fuel">Fuel</option>
+            <option value="family">Family transfers</option>
+            <option value="personal">Personal spending</option>
+          </select>
+          <button class="add-btn-sm" onclick="addSpendDesk()">+ Add</button>
+        </div>
+        <div class="spend-items-list" id="spendListD"></div>
+      </div>
+      <!-- Right: rules -->
+      <div>
+        <div class="rules-box" id="spendInfoD"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- MOBILE SPENDING VIEW -->
   <div id="spendingView" class="mob-only hidden">
     <div class="spend-full">
@@ -524,9 +634,17 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <div class="spend-add-row">
         <input class="f-inp grow" id="spDesc" placeholder="What did you spend on?">
         <input class="f-inp amt" id="spAmt" type="number" placeholder="$" step="0.01">
+        <select class="f-sel" id="spCatM" style="min-width:120px;font-size:12px">
+          <option value="groceries">Groceries</option>
+          <option value="eating_out">Eating out</option>
+          <option value="fuel">Fuel</option>
+          <option value="family">Family transfers</option>
+          <option value="personal">Personal</option>
+        </select>
         <button class="add-btn-sm" onclick="addSpend()">+</button>
       </div>
       <div class="spend-items-list" id="spendList"></div>
+      <div class="cat-breakdown" id="catBreakdownM" style="margin-top:10px"></div>
       <div class="rules-box" id="spendInfo"></div>
     </div>
   </div>
@@ -582,6 +700,21 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     </div>
   </div>
 
+  <!-- QUOTE MANAGER -->
+  <div class="qm-panel">
+    <div class="sec-hd">
+      <div class="sec-ttl">Motivational Quotes</div>
+      <div class="sec-acts">
+        <span style="font-size:11px;color:var(--tx3)">Rotates every 5 minutes on the strip above</span>
+      </div>
+    </div>
+    <div id="quoteListEl" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px"></div>
+    <div style="display:flex;gap:7px">
+      <input class="add-inp" id="newQuoteInp" placeholder="Add a new motivational quote…" onkeydown="if(event.key==='Enter')addQuote()">
+      <button class="add-btn-sm" onclick="addQuote()">+ Add</button>
+    </div>
+  </div>
+
   <div class="footer">
     <span id="syncStatus">Syncing...</span> · Saved locally · <span id="lastRender"></span>
   </div>
@@ -610,7 +743,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
 const API = 'https://script.google.com/macros/s/AKfycbw_0wEdNX6AFyvu25sT88HaDsN5czMHkoAb_HwVQvRLp8qxvfbl9mYP337udGx-E7drbQ/exec';
-const MONTHLY_BUDGET = 2927; // monthly discretionary
+let MONTHLY_BUDGET = 2927; // loaded from localStorage after ld() is defined
 
 // ─── DEFAULT DATA ─────────────────────────────────────────────────────────────
 const DEFAULT_HABITS = [
@@ -646,7 +779,24 @@ const CATS = {
 
 const CRITICAL_IDS = ["no_alc","eat","gym","reflect","sleep"];
 
-const ROUTINE = [
+const SPEND_CATS = [
+  {id:'groceries',  l:'Groceries',         c:'#34d399'},
+  {id:'eating_out', l:'Eating out',         c:'#fb923c'},
+  {id:'fuel',       l:'Fuel',               c:'#60a5fa'},
+  {id:'family',     l:'Family transfers',   c:'#f472b6'},
+  {id:'personal',   l:'Personal spending',  c:'#a78bfa'},
+];
+
+const DEFAULT_QUOTES = [
+  "Every disciplined effort is rewarded. Protect the morning — it sets the tone for everything.",
+  "Win the morning, win the day. No compromises before 8 AM.",
+  "Consistency is not glamorous. But it compounds into greatness.",
+  "Progress is made one healthy decision at a time. Each one counts.",
+  "The price of discipline is always less than the pain of regret.",
+  "Small daily improvements lead to staggering long-term results.",
+];
+
+const DEFAULT_ROUTINE = [
   {t:"5:15 AM",  tm:5*60+15,  a:"Morning run — 30 min",           c:"#60a5fa"},
   {t:"6:00 AM",  tm:6*60,     a:"Gym — Fitness First Deakin",     c:"#34d399"},
   {t:"7:15 AM",  tm:7*60+15,  a:"Breakfast + supplements",        c:"#4ade80"},
@@ -661,6 +811,7 @@ const ROUTINE = [
   {t:"9:45 PM",  tm:21*60+45, a:"Skincare",                       c:"#f472b6"},
   {t:"10:30 PM", tm:22*60+30, a:"Lights out",                     c:"#a78bfa"},
 ];
+let ROUTINE = [];
 
 const NOW_ACTIONS = [
   {id:"run",   tmStart:5*60+15, tmEnd:5*60+45, energy:"Medium", impact:"High",  reason:"Anchors daily discipline and supports fat loss. Sets the physical tone for the day."},
@@ -688,6 +839,8 @@ const INSIGHTS = [
 // ─── STATE ────────────────────────────────────────────────────────────────────
 let H = [], T = [], chk = {}, catFilter = 'all', pipeFilter = 'next';
 let skipTarget = null, skipReason = null, recoveryMode = false;
+let snoozeUntil = 0, snoozeId = null, routineEditMode = false;
+let QUOTES = [], quoteIdx = 0;
 
 // ─── STORAGE ──────────────────────────────────────────────────────────────────
 const fd = d => d.toISOString().split('T')[0];
@@ -704,6 +857,20 @@ const loadH = () => ld('cmd_habits', DEFAULT_HABITS);
 const saveH = h => sv('cmd_habits', h);
 const loadT = () => ld('cmd_tasks', DEFAULT_TASKS);
 const saveT = t => sv('cmd_tasks', t);
+function loadRoutine() { return ld('cmd_routine', DEFAULT_ROUTINE); }
+function saveRoutine(r) { sv('cmd_routine', r); }
+function parseTimeMins(ts) {
+  // Parse "5:15 AM" or "10:30 PM" → minutes
+  const m = ts.match(/(\d+):(\d+)\s*(AM|PM)/i);
+  if (!m) return 0;
+  let h = parseInt(m[1]), mn = parseInt(m[2]);
+  const ap = m[3].toUpperCase();
+  if (ap==='AM' && h===12) h=0;
+  if (ap==='PM' && h!==12) h+=12;
+  return h*60+mn;
+}
+function loadQuotes() { return ld('cmd_quotes', DEFAULT_QUOTES); }
+function saveQuotes(q) { sv('cmd_quotes', q); }
 
 // ─── CLOUD SYNC ───────────────────────────────────────────────────────────────
 function setSyncStatus(msg, col) {
@@ -827,15 +994,30 @@ function getStatus() {
 // ─── NOW CARD ─────────────────────────────────────────────────────────────────
 function renderNow() {
   const tm=nowMins();
+  // Expire snooze if time passed
+  if (snoozeUntil>0 && tm>=snoozeUntil) { snoozeUntil=0; snoozeId=null; }
+  // Show/hide snooze notice
+  const sn=document.getElementById('snoozeNotice');
+  if (snoozeUntil>0 && snoozeId) {
+    const fmt=m=>{const hh=Math.floor(m/60),mm=m%60,ap=hh>=12?'PM':'AM';return(hh>12?hh-12:hh||12)+':'+(mm<10?'0':'')+mm+' '+ap;};
+    document.getElementById('snoozeUntilTxt').textContent=fmt(snoozeUntil);
+    if(sn)sn.classList.add('show');
+  } else { if(sn)sn.classList.remove('show'); }
   let best=null;
-  // Find current window
+  // Find current window (skip snoozed)
   for (const na of NOW_ACTIONS) {
-    if (tm>=na.tmStart && tm<=na.tmEnd+30 && !chk[na.id]) { best=na; break; }
+    if (tm>=na.tmStart && tm<=na.tmEnd+30 && !chk[na.id]) {
+      if (na.id===snoozeId && snoozeUntil>0 && tm<snoozeUntil) continue;
+      best=na; break;
+    }
   }
-  // If none current, find next pending
+  // If none current, find next pending (skip snoozed)
   if (!best) {
     for (const na of NOW_ACTIONS) {
-      if (tm<na.tmStart && !chk[na.id]) { best=na; break; }
+      if (tm<na.tmStart && !chk[na.id]) {
+        if (na.id===snoozeId && snoozeUntil>0 && tm<snoozeUntil) continue;
+        best=na; break;
+      }
     }
   }
   // If all done or evening wrap
@@ -870,14 +1052,42 @@ function renderNow() {
 }
 
 function markNowDone() {
-  if (!skipTarget) return;
+  if (!skipTarget) {
+    // Day is complete — celebrate!
+    celebrateDay();
+    return;
+  }
   chk[skipTarget] = true;
   sc(td(), chk);
   setSyncStatus('Saving…','var(--blue)');
   debouncedSave('habits', td(), chk);
   render();
 }
-function snoozeNow() { setTimeout(()=>renderNow(), 15*60*1000); }
+function snoozeNow() {
+  if (!skipTarget) return;
+  snoozeId = skipTarget;
+  snoozeUntil = nowMins() + 15;
+  renderNow();
+}
+function celebrateDay() {
+  const card = document.querySelector('.now-card');
+  if (!card) return;
+  const msg = document.getElementById('celebMsg');
+  if (msg) { msg.classList.add('show'); setTimeout(()=>msg.classList.remove('show'), 3000); }
+  if (card) card.classList.add('celebrating');
+  // Create particles
+  const colors = ['#00f5d4','#b57bee','#60a5fa','#34d399','#fbbf24','#f472b6'];
+  for (let i=0; i<16; i++) {
+    const p = document.createElement('div');
+    p.className = 'celeb-particle';
+    const angle = (i/16)*360, dist = 60+Math.random()*60;
+    const px = Math.cos(angle*Math.PI/180)*dist, py = -(Math.sin(angle*Math.PI/180)*dist+30+Math.random()*40);
+    p.style.cssText = `left:50%;top:50%;background:${colors[i%colors.length]};--px:${px}px;--py:${py}px;margin-left:-4px;margin-top:-4px;animation-delay:${Math.random()*0.2}s`;
+    card.appendChild(p);
+    setTimeout(()=>p.remove(), 1200);
+  }
+  setTimeout(()=>card.classList.remove('celebrating'), 900);
+}
 function openSkipModal() { document.getElementById('skipOverlay').classList.add('open'); }
 function closeSkip() { document.getElementById('skipOverlay').classList.remove('open'); skipReason=null; document.querySelectorAll('.reason-btn').forEach(b=>b.classList.remove('sel')); }
 function selectReason(btn,r) { skipReason=r; document.querySelectorAll('.reason-btn').forEach(b=>b.classList.remove('sel')); btn.classList.add('sel'); }
@@ -1094,6 +1304,17 @@ function submitHabit() {
 // ─── TIMELINE ─────────────────────────────────────────────────────────────────
 function renderTimeline() {
   const el = document.getElementById('timelineEl');
+  const ep = document.getElementById('routineEditPanel');
+  const btn = document.getElementById('routineEditBtn');
+  if (routineEditMode) {
+    el.style.display = 'none';
+    if(ep) { ep.style.display='block'; renderRoutineEditor(); }
+    if(btn) btn.textContent = '✓ Done';
+    return;
+  }
+  if(ep) ep.style.display='none';
+  if(btn) btn.textContent = '✏';
+  el.style.display = '';
   el.innerHTML = '';
   const tm = nowMins();
   let curIdx = -1;
@@ -1101,7 +1322,6 @@ function renderTimeline() {
     const next = ROUTINE[i+1];
     if (tm >= s.tm && (!next || tm < next.tm)) curIdx = i;
   });
-  // Show ±5 items around current
   const start = Math.max(0, curIdx-1);
   const end = Math.min(ROUTINE.length, curIdx+6);
   const slice = curIdx>=0 ? ROUTINE.slice(start,end) : ROUTINE.slice(0,7);
@@ -1118,9 +1338,77 @@ function renderTimeline() {
     `;
     el.appendChild(div);
   });
-  // Update "Now" tag
   const curSlot = ROUTINE[curIdx];
   document.getElementById('tlNow').textContent = curSlot ? curSlot.t : '—';
+}
+function toggleRoutineEdit() {
+  routineEditMode = !routineEditMode;
+  renderTimeline();
+}
+function renderRoutineEditor() {
+  const ep = document.getElementById('routineEditPanel');
+  ep.className = 'routine-edit-panel';
+  ep.innerHTML = '';
+  ROUTINE.forEach((s,i) => {
+    const row = document.createElement('div');
+    row.className = 're-item';
+    row.innerHTML = `
+      <div class="tl-dot" style="background:${s.c};flex-shrink:0"></div>
+      <input class="re-time" value="${s.t}" id="rt_t_${i}" placeholder="5:15 AM">
+      <input class="re-label" value="${s.a}" id="rt_a_${i}" placeholder="Activity">
+      <input type="color" class="re-color" value="${s.c}" id="rt_c_${i}" title="Color">
+      <button class="re-del" onclick="deleteRoutineItem(${i})" title="Delete">✕</button>
+    `;
+    ep.appendChild(row);
+  });
+  // Add new row form
+  const addRow = document.createElement('div');
+  addRow.className = 're-add-row';
+  addRow.innerHTML = `
+    <input class="re-time" id="rt_new_t" placeholder="8:00 AM" style="width:80px">
+    <input class="re-label" id="rt_new_a" placeholder="New activity…" style="flex:1">
+    <input type="color" class="re-color" id="rt_new_c" value="#60a5fa" title="Color">
+    <button class="add-btn-sm" onclick="addRoutineItem()">+ Add</button>
+  `;
+  ep.appendChild(addRow);
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 're-save-btn';
+  saveBtn.textContent = '✓ Save Routine';
+  saveBtn.onclick = saveRoutineEdits;
+  ep.appendChild(saveBtn);
+}
+function deleteRoutineItem(i) {
+  ROUTINE.splice(i, 1);
+  saveRoutine(ROUTINE);
+  renderRoutineEditor();
+}
+function addRoutineItem() {
+  const t = document.getElementById('rt_new_t').value.trim();
+  const a = document.getElementById('rt_new_a').value.trim();
+  const c = document.getElementById('rt_new_c').value;
+  if (!t || !a) return;
+  const tm = parseTimeMins(t);
+  ROUTINE.push({t, tm, a, c});
+  ROUTINE.sort((x,y) => x.tm - y.tm);
+  saveRoutine(ROUTINE);
+  renderRoutineEditor();
+}
+function saveRoutineEdits() {
+  ROUTINE.forEach((s,i) => {
+    const tEl = document.getElementById('rt_t_'+i);
+    const aEl = document.getElementById('rt_a_'+i);
+    const cEl = document.getElementById('rt_c_'+i);
+    if (tEl && aEl && cEl) {
+      s.t = tEl.value.trim();
+      s.tm = parseTimeMins(s.t);
+      s.a = aEl.value.trim();
+      s.c = cEl.value;
+    }
+  });
+  ROUTINE.sort((x,y) => x.tm - y.tm);
+  saveRoutine(ROUTINE);
+  routineEditMode = false;
+  renderTimeline();
 }
 
 // ─── RISK MONITOR ─────────────────────────────────────────────────────────────
@@ -1133,7 +1421,7 @@ function renderRisk() {
   const eatDone = !!chk['eat'];
   const spendData = getSpend();
   const risks = [
-    {lbl:'Food delivery', pct: (!eatDone && h>=17)?80:h>=19&&!eatDone?90:20, c:'#f87171'},
+    {lbl:'Eat healthy on time', pct: eatDone?5:h>=19?90:h>=17?70:h>=13?40:20, c:'#34d399'},
     {lbl:'Gym skip',      pct: !runDone?65:!gymDone&&h>8?50:10, c:'#fbbf24'},
     {lbl:'Sleep delay',   pct: h>=21&&Object.values(chk).filter(Boolean).length<H.length*0.7?75:25, c:'#a78bfa'},
     {lbl:'Overspend',     pct: Math.min(95,spendData.pu), c:spendData.pu>80?'#f87171':'#34d399'},
@@ -1186,26 +1474,140 @@ function renderSpendFull() {
   document.getElementById('monthLabel').textContent='$'+Math.round(ms)+' / $'+MONTHLY_BUDGET+' this month';
   document.getElementById('spendInfo').textContent='No alcohol. Groceries + fuel only. Every dollar saved compounds into freedom.';
   const sl=document.getElementById('spendList');
-  sl.innerHTML='';
+  if(sl){sl.innerHTML='';
   items.forEach((item,i)=>{
+    const sc=SPEND_CATS.find(x=>x.id===item.cat)||{l:'Personal',c:'#a78bfa'};
     const r=document.createElement('div');r.className='si';
-    r.innerHTML=`<div class="si-l"><span class="si-t">${item.t}</span><span class="si-d">${item.d}</span></div><div class="si-r"><span class="si-a">-$${Math.round(item.a)}</span><button class="si-del" data-i="${i}">✕</button></div>`;
+    r.innerHTML=`<div class="si-l"><span class="si-t">${item.t}</span><span class="spend-cat-badge" style="background:${sc.c}22;color:${sc.c}">${sc.l}</span><span class="si-d">${item.d}</span></div><div class="si-r"><span class="si-a">-$${Math.round(item.a)}</span><button class="si-del" data-i="${i}">✕</button></div>`;
     r.querySelector('.si-del').addEventListener('click',e=>{
       e.stopPropagation();const sp=ls(t);sp.splice(i,1);ss(t,sp);
-      setSyncStatus('Saving…','var(--blue)');debouncedSave('spending',t,sp);renderSpendFull();renderSpendMini();
+      setSyncStatus('Saving…','var(--blue)');debouncedSave('spending',t,sp);renderSpendFull();renderSpendDesktop();renderSpendMini();
     });
     sl.appendChild(r);
+  });}
+  const cbM=document.getElementById('catBreakdownM');
+  if(cbM) cbM.innerHTML=buildCatBreakdown(items,ts);
+}
+
+function doAddSpend(desc, amt, cat) {
+  if(!desc.trim()||!amt) return;
+  const t=td(), items=ls(t);
+  items.push({d:desc.trim(), a:parseFloat(amt), t:new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'}), cat:cat||'personal'});
+  ss(t,items);
+  setSyncStatus('Saving…','var(--blue)');
+  debouncedSave('spending',t,items);
+  renderSpendFull(); renderSpendDesktop(); renderSpendMini();
+}
+function addSpend() {
+  const d=document.getElementById('spDesc'), a=document.getElementById('spAmt'), c=document.getElementById('spCatM');
+  doAddSpend(d.value, a.value, c?c.value:'personal');
+  d.value=''; a.value='';
+}
+function addSpendDesk() {
+  const d=document.getElementById('spDescD'), a=document.getElementById('spAmtD'), c=document.getElementById('spCatD');
+  doAddSpend(d.value, a.value, c?c.value:'personal');
+  d.value=''; a.value='';
+}
+function buildCatBreakdown(items, totalDay) {
+  const bycat = {};
+  SPEND_CATS.forEach(sc => bycat[sc.id] = 0);
+  items.forEach(it => { const k=it.cat||'personal'; if(bycat[k]!==undefined) bycat[k]+=it.a; else bycat['personal']+=it.a; });
+  const used = SPEND_CATS.filter(sc => bycat[sc.id]>0);
+  if(!used.length) return '';
+  return `<div class="cat-breakdown-ttl">By Category</div>`+used.map(sc=>{
+    const amt=bycat[sc.id], pct=totalDay>0?Math.min(100,Math.round(amt/totalDay*100)):0;
+    return `<div class="cat-row-item">
+      <div class="cat-dot-s" style="background:${sc.c}"></div>
+      <div class="cat-name-s">${sc.l}</div>
+      <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:${pct}%;background:${sc.c}"></div></div>
+      <div class="cat-amt-s">$${Math.round(amt)}</div>
+    </div>`;
+  }).join('');
+}
+
+// ─── SPEND DESKTOP ────────────────────────────────────────────────────────────
+function renderSpendDesktop() {
+  const wrap = document.getElementById('spendDesktopWrap');
+  if (!wrap) return;
+  const t=td(), {items,ts,ms,dy,lt,pu,dl}=getSpend();
+  const col=pu>85?'var(--red)':pu>65?'var(--amber)':'var(--green)';
+  const bD=document.getElementById('sBudgetD'), spD=document.getElementById('sSpentD'), lD=document.getElementById('sLeftD');
+  const bbD=document.getElementById('sBudBarD'), mlD=document.getElementById('monthLabelD');
+  if(bD) bD.textContent='$'+dy;
+  if(spD){spD.textContent='$'+Math.round(ts);spD.style.color=ts>0?'var(--red)':'var(--tx)';}
+  if(lD){lD.textContent='$'+lt;lD.style.color=col;}
+  if(bbD){bbD.style.width=pu+'%';bbD.style.background=col;}
+  if(mlD) mlD.textContent='$'+Math.round(ms)+' / $'+Math.round(MONTHLY_BUDGET)+' this month';
+  const siD=document.getElementById('spendInfoD');
+  if(siD) siD.textContent='No alcohol. Groceries + fuel only. Every dollar saved compounds into freedom.';
+  const cbD=document.getElementById('catBreakdownD');
+  if(cbD) cbD.innerHTML=buildCatBreakdown(items,ts);
+  const slD=document.getElementById('spendListD');
+  if(!slD) return;
+  slD.innerHTML='';
+  items.forEach((item,i)=>{
+    const sc2=SPEND_CATS.find(x=>x.id===item.cat)||{l:'Personal',c:'#a78bfa'};
+    const r=document.createElement('div');r.className='si';
+    r.innerHTML=`<div class="si-l"><span class="si-t">${item.t}</span><span class="spend-cat-badge" style="background:${sc2.c}22;color:${sc2.c}">${sc2.l}</span><span class="si-d">${item.d}</span></div><div class="si-r"><span class="si-a">-$${Math.round(item.a)}</span><button class="si-del" data-i="${i}">✕</button></div>`;
+    r.querySelector('.si-del').addEventListener('click',e=>{
+      e.stopPropagation();const sp=ls(t);sp.splice(i,1);ss(t,sp);
+      setSyncStatus('Saving…','var(--blue)');debouncedSave('spending',t,sp);renderSpendFull();renderSpendDesktop();renderSpendMini();
+    });
+    slD.appendChild(r);
   });
 }
 
-function addSpend() {
-  const d=document.getElementById('spDesc'),a=document.getElementById('spAmt');
-  if(!d.value.trim()||!a.value)return;
-  const t=td(),items=ls(t);
-  items.push({d:d.value.trim(),a:parseFloat(a.value),t:new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'})});
-  ss(t,items);d.value='';a.value='';
-  setSyncStatus('Saving…','var(--blue)');debouncedSave('spending',t,items);
-  renderSpendFull();renderSpendMini();
+// ─── QUOTES ───────────────────────────────────────────────────────────────────
+function renderQuoteStrip() {
+  if (!QUOTES.length) return;
+  const el = document.getElementById('quoteTxt');
+  const idx = document.getElementById('quoteIdx');
+  if (el) el.textContent = QUOTES[quoteIdx] || '';
+  if (idx) idx.textContent = (quoteIdx+1)+'/'+QUOTES.length;
+}
+function advanceQuote() {
+  if (!QUOTES.length) return;
+  quoteIdx = (quoteIdx+1) % QUOTES.length;
+  renderQuoteStrip();
+}
+function renderQuoteManager() {
+  const el = document.getElementById('quoteListEl');
+  if (!el) return;
+  el.innerHTML = '';
+  QUOTES.forEach((q,i) => {
+    const row = document.createElement('div');
+    row.className = 'qi';
+    row.innerHTML = `<div class="qi-txt">${q}</div><button class="qi-del" onclick="deleteQuote(${i})" title="Remove">✕</button>`;
+    el.appendChild(row);
+  });
+}
+function addQuote() {
+  const inp = document.getElementById('newQuoteInp');
+  if (!inp || !inp.value.trim()) return;
+  QUOTES.push(inp.value.trim());
+  saveQuotes(QUOTES);
+  inp.value = '';
+  renderQuoteManager();
+  renderQuoteStrip();
+}
+function deleteQuote(i) {
+  QUOTES.splice(i,1);
+  if (quoteIdx >= QUOTES.length) quoteIdx = Math.max(0, QUOTES.length-1);
+  saveQuotes(QUOTES);
+  renderQuoteManager();
+  renderQuoteStrip();
+}
+
+// ─── BUDGET EDITOR ────────────────────────────────────────────────────────────
+function editBudget() {
+  const newVal = prompt('Set monthly budget ($):', Math.round(MONTHLY_BUDGET));
+  if (newVal !== null && newVal.trim() !== '' && !isNaN(parseFloat(newVal)) && parseFloat(newVal) > 0) {
+    MONTHLY_BUDGET = parseFloat(newVal);
+    sv('cmd_budget', MONTHLY_BUDGET);
+    const bdEl = document.getElementById('budgetDisplay');
+    if (bdEl) bdEl.textContent = Math.round(MONTHLY_BUDGET);
+    render();
+  }
 }
 
 // ─── MOBILE VIEW SWITCHING ────────────────────────────────────────────────────
@@ -1257,6 +1659,7 @@ function renderCmdBar() {
   document.getElementById('budLeft').textContent='$'+lt;
   document.getElementById('budLeft').style.color=pu>80?'var(--red)':pu>60?'var(--amber)':'var(--green)';
   document.getElementById('budSub').textContent='of $'+dy+' today';
+  const bdEl2=document.getElementById('budgetDisplay'); if(bdEl2) bdEl2.textContent=Math.round(MONTHLY_BUDGET);
   // Streak
   const st=streak(chk), alc=noAlcStreak(chk);
   document.getElementById('streakVal').textContent=st;
@@ -1296,8 +1699,11 @@ function render() {
   renderRisk();
   renderSpendMini();
   renderSpendFull();
+  renderSpendDesktop();
   renderHabits();
   renderInsight();
+  renderQuoteStrip();
+  renderQuoteManager();
   // Recovery banner auto-show
   const pct=Math.round(Object.values(chk).filter(Boolean).length/(H.length||1)*100);
   if (pct<30 && new Date().getHours()>16) {
@@ -1308,10 +1714,16 @@ function render() {
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
+MONTHLY_BUDGET = ld('cmd_budget', 2927);
+ROUTINE = loadRoutine();
+QUOTES = loadQuotes();
 H = loadH();
 T = loadT();
 chk = lc(td());
 recoveryMode = ld('recoveryMode', false);
+// Update budget display
+const bdInit = document.getElementById('budgetDisplay');
+if (bdInit) bdInit.textContent = Math.round(MONTHLY_BUDGET);
 if (recoveryMode) {
   document.getElementById('recBanner').classList.add('show');
   document.getElementById('modeLabel').textContent='Recovery';
@@ -1321,6 +1733,7 @@ if (recoveryMode) {
 document.getElementById('spAmt').addEventListener('keydown',e=>{if(e.key==='Enter')addSpend()});
 document.getElementById('spDesc').addEventListener('keydown',e=>{if(e.key==='Enter')addSpend()});
 document.getElementById('taskInput').addEventListener('keydown',e=>{if(e.key==='Enter')addTask()});
+document.getElementById('newQuoteInp').addEventListener('keydown',e=>{if(e.key==='Enter')addQuote()});
 
 render();
 
@@ -1328,7 +1741,9 @@ render();
 cloudLoad().then(ok => { if(ok){ chk=lc(td()); render(); } });
 
 // Auto-refresh every minute
-setInterval(() => { renderTimeline(); renderRisk(); renderSpendMini(); renderCmdBar(); renderNow(); renderHeader(); }, 60000);
+setInterval(() => { renderTimeline(); renderRisk(); renderSpendMini(); renderSpendDesktop(); renderCmdBar(); renderNow(); renderHeader(); }, 60000);
+// Quote rotation every 5 minutes
+setInterval(() => advanceQuote(), 5*60*1000);
 // Midnight reset
 setInterval(() => { const n=new Date(); if(n.getHours()===0&&n.getMinutes()===0){ chk=lc(td()); render(); } }, 60000);
 </script>
