@@ -925,11 +925,11 @@ async function cloudLoad() {
     if (j && j.spending) for (const [d,data] of Object.entries(j.spending)) sv('s_'+d, data);
     if (j && j.settings) {
       const s = j.settings;
-      if (s.cmd_habits  != null) sv('cmd_habits',  s.cmd_habits);
-      if (s.cmd_tasks   != null) sv('cmd_tasks',   s.cmd_tasks);
-      if (s.cmd_routine != null) sv('cmd_routine', s.cmd_routine);
-      if (s.cmd_quotes  != null) sv('cmd_quotes',  s.cmd_quotes);
-      if (s.cmd_budget  != null) sv('cmd_budget',  s.cmd_budget);
+      if (s.cmd_habits  != null) { sv('cmd_habits',  s.cmd_habits);  H = s.cmd_habits; }
+      if (s.cmd_tasks   != null) { sv('cmd_tasks',   s.cmd_tasks);   T = s.cmd_tasks; }
+      if (s.cmd_routine != null) { sv('cmd_routine', s.cmd_routine); ROUTINE = s.cmd_routine; }
+      if (s.cmd_quotes  != null) { sv('cmd_quotes',  s.cmd_quotes);  QUOTES = s.cmd_quotes; }
+      if (s.cmd_budget  != null) { sv('cmd_budget',  s.cmd_budget);  MONTHLY_BUDGET = s.cmd_budget; }
     }
     setSyncStatus('Synced','var(--tx3)');
     return true;
