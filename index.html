@@ -854,11 +854,11 @@ const sc = (dt,c) => sv('h_'+dt, c);
 const ls = dt => ld('s_'+dt, []);
 const ss = (dt,s) => sv('s_'+dt, s);
 const loadH = () => ld('cmd_habits', DEFAULT_HABITS);
-const saveH = h => sv('cmd_habits', h);
+const saveH = h => { sv('cmd_habits', h); cloudSaveSettings(); };
 const loadT = () => ld('cmd_tasks', DEFAULT_TASKS);
-const saveT = t => sv('cmd_tasks', t);
+const saveT = t => { sv('cmd_tasks', t); cloudSaveSettings(); };
 function loadRoutine() { return ld('cmd_routine', DEFAULT_ROUTINE); }
-function saveRoutine(r) { sv('cmd_routine', r); }
+function saveRoutine(r) { sv('cmd_routine', r); cloudSaveSettings(); }
 function parseTimeMins(ts) {
   // Parse "5:15 AM" or "10:30 PM" → minutes
   const m = ts.match(/(\d+):(\d+)\s*(AM|PM)/i);
@@ -870,7 +870,7 @@ function parseTimeMins(ts) {
   return h*60+mn;
 }
 function loadQuotes() { return ld('cmd_quotes', DEFAULT_QUOTES); }
-function saveQuotes(q) { sv('cmd_quotes', q); }
+function saveQuotes(q) { sv('cmd_quotes', q); cloudSaveSettings(); }
 
 // ─── CLOUD SYNC ───────────────────────────────────────────────────────────────
 function setSyncStatus(msg, col) {
@@ -889,6 +889,22 @@ function debouncedSave(type, date, data) {
     else cloudSave('saveSpending', date, data);
   }, 800);
 }
+async function cloudSaveSettings() {
+  try {
+    const settings = {
+      cmd_habits:  ld('cmd_habits', null),
+      cmd_tasks:   ld('cmd_tasks', null),
+      cmd_routine: ld('cmd_routine', null),
+      cmd_quotes:  ld('cmd_quotes', null),
+      cmd_budget:  ld('cmd_budget', null)
+    };
+    await fetch(`${FIREBASE_URL}/settings.json`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(settings)
+    });
+  } catch(e) {}
+}
 async function cloudSave(action, date, data) {
   try {
     const path = action === 'saveHabits' ? 'habits' : 'spending';
@@ -904,13 +920,19 @@ async function cloudLoad() {
     setSyncStatus('Syncing…','var(--blue)');
     const res = await fetch(`${FIREBASE_URL}/.json?_=` + Date.now());
     const j = await res.json();
-    if (j) {
-      if (j.habits) for (const [d,data] of Object.entries(j.habits)) sv('h_'+d, data);
-      if (j.spending) for (const [d,data] of Object.entries(j.spending)) sv('s_'+d, data);
-      setSyncStatus('Synced','var(--tx3)');
-      return true;
+    // j is null when DB is empty — that's valid
+    if (j && j.habits) for (const [d,data] of Object.entries(j.habits)) sv('h_'+d, data);
+    if (j && j.spending) for (const [d,data] of Object.entries(j.spending)) sv('s_'+d, data);
+    if (j && j.settings) {
+      const s = j.settings;
+      if (s.cmd_habits  != null) sv('cmd_habits',  s.cmd_habits);
+      if (s.cmd_tasks   != null) sv('cmd_tasks',   s.cmd_tasks);
+      if (s.cmd_routine != null) sv('cmd_routine', s.cmd_routine);
+      if (s.cmd_quotes  != null) sv('cmd_quotes',  s.cmd_quotes);
+      if (s.cmd_budget  != null) sv('cmd_budget',  s.cmd_budget);
     }
-    setSyncStatus('Sync error','var(--red)');
+    setSyncStatus('Synced','var(--tx3)');
+    return true;
   } catch { setSyncStatus('Offline','var(--amber)'); }
   return false;
 }
@@ -1607,7 +1629,7 @@ function editBudget() {
   const newVal = prompt('Set monthly budget ($):', Math.round(MONTHLY_BUDGET));
   if (newVal !== null && newVal.trim() !== '' && !isNaN(parseFloat(newVal)) && parseFloat(newVal) > 0) {
     MONTHLY_BUDGET = parseFloat(newVal);
-    sv('cmd_budget', MONTHLY_BUDGET);
+    sv('cmd_budget', MONTHLY_BUDGET); cloudSaveSettings();
     const bdEl = document.getElementById('budgetDisplay');
     if (bdEl) bdEl.textContent = Math.round(MONTHLY_BUDGET);
     render();
