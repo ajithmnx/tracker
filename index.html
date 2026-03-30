@@ -742,7 +742,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
-const API = 'https://script.google.com/macros/s/AKfycbzxd0cdiDGb7u3_CWGTsm48pwQBUkNtnN61togx5_hO01R9V6DusznhKSdNjUpMkRv9hQ/exec';
+const FIREBASE_URL = 'https://command-centre-9472e-default-rtdb.asia-southeast1.firebasedatabase.app';
 let MONTHLY_BUDGET = 2927; // loaded from localStorage after ld() is defined
 
 // ─── DEFAULT DATA ─────────────────────────────────────────────────────────────
@@ -891,16 +891,20 @@ function debouncedSave(type, date, data) {
 }
 async function cloudSave(action, date, data) {
   try {
-    await fetch(API, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'},
-      body: JSON.stringify({action, date, data})});
+    const path = action === 'saveHabits' ? 'habits' : 'spending';
+    await fetch(`${FIREBASE_URL}/${path}/${date}.json`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
   } catch(e) {}
 }
 async function cloudLoad() {
   try {
     setSyncStatus('Syncing…','var(--blue)');
-    const res = await fetch(API+'?action=getAll&_='+Date.now());
+    const res = await fetch(`${FIREBASE_URL}/.json?_=` + Date.now());
     const j = await res.json();
-    if (j.status==='ok') {
+    if (j) {
       if (j.habits) for (const [d,data] of Object.entries(j.habits)) sv('h_'+d, data);
       if (j.spending) for (const [d,data] of Object.entries(j.spending)) sv('s_'+d, data);
       setSyncStatus('Synced','var(--tx3)');
